@@ -1,4 +1,12 @@
 @import "./_reset.scss";
+@font-face {
+    font-family: "Minecraft";
+    src: url("../../fonts/Minecraft.ttf");
+}
+@font-face {
+    font-family: "FactBit";
+    src: url("../../fonts//FactBit.TTF");
+}
 
 html, body {
     min-height: 100vh;
@@ -13,27 +21,128 @@ body {
     width: 90em;
     margin: auto;
 
+    .spacing {
+        height: 20px;
+    }
+
+    .header-title {
+        background: #fff6a8;
+        border: 0.25em solid #db8655;
+        border-radius: 0.5em;
+        height: 6em;
+        width: 33%;
+        margin-top: 2em;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        box-shadow: 0 0.3em 0.3em #5555551f, 0 1px 2px #5555553d;
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+    .title-main {
+        font-family: "FactBit";
+        color: #c55c3c;
+        font-size: 28pt;
+        line-height: 1.65em;
+    }
+    .title-detail {
+        font-family: "FactBit";
+        font-size: 14pt;
+        color: #55aa52;
+    }
+
     .bg-container {
         display: flex; 
 
+        // left content
         .left-side-bar {
             flex: 1 1 auto;
-            width: 30em;
-        }
-        .middle-bar {
-            flex: 1 1 auto;
-            width: 30em;
-        }
-        .right-side-bar {
-            flex: 1 1 auto;
-            width: 30em;    
+            width: 31%;
+            border: 0.25em solid #db8655;
+            border-radius: 0.5em;
+            background: white;
+            height: 24em;
+
+            .merchant-wallet-title {
+                text-align: center;
+                font-family: "Minecraft";
+                font-size: 18pt;
+                margin: 0.25em;
+                color: #db8655;
+                text-decoration: underline;
+            }
+
+            .dotted-line {
+                circle {
+                  fill: #0d3d7d;
+                }
+              }
         }
 
-        .bg-image {
-            width: 92%;
-            margin: auto;
-            display: block;
-            border: 0.5em solid #db8655;
+        // mid contents
+        .middle-bar {
+            flex: 1 1 auto;
+            width: 33%;
+
+            .character-name-plate {
+                display: flex; 
+                margin-top: 0.25em;
+            }
+            .merchant-title {
+                color: #4d9162;
+                font-family: "FactBit";
+                font-size: 20pt;
+                margin-left: 0.75em;
+                margin-right: 0.75em;
+            }
+            .hero-title {
+                color: #2ba4c9;
+                font-family: "FactBit";
+                font-size: 20pt;
+            }
+
+            .character-boxes {
+                display: flex;
+                position: relative;
+                top: -40%;
+                left: 18%;
+            }
+            .merchant-body {
+                height: 5em;
+                width: 3em;
+                border-radius: 0.1em;
+                border: 1em solid white;
+                opacity: 0.3;
+            }
+            .merchant-body:hover {
+                opacity: 1;
+                border: 1em solid white;
+            }
+            .hero-body {
+                height: 5em;
+                width: 3em;
+                margin-left: 1em;
+                border-radius: 0.1em;
+                border: 1em solid white;  
+                opacity: 0.3;
+            }
+            .hero-body:hover {
+                opacity: 1;
+                border: 1em solid white;
+            }
+
+            .bg-image {
+                width: 92%;
+                margin: auto;
+                display: block;
+                border: 0.25em solid #db8655;
+                border-radius: 0.5em;
+            }
+        }
+
+        // right side contents
+        .right-side-bar {
+            flex: 1 1 auto;
+            width: 33%; 
         }
 
     }
