@@ -52,6 +52,25 @@ body {
 
     .bg-container {
         display: flex; 
+        height: 23em;
+
+        .floating-title {
+            text-align: center;
+            font-family: "FactBit";
+            font-size: 20pt;
+            color: #db8655;
+            // text-decoration: underline;
+            position: relative;
+            top: -15%;
+        }
+        .floating-title-green {
+            text-align: center;
+            font-family: "FactBit";
+            font-size: 20pt;
+            color: #4cac77;
+            position: relative;
+            top: -15%;
+        }
 
         // left content
         .left-side-bar {
@@ -60,28 +79,102 @@ body {
             border: 0.25em solid #db8655;
             border-radius: 0.5em;
             background: white;
-            height: 24em;
+            height: 21em;
 
-            .merchant-wallet-title {
-                text-align: center;
-                font-family: "Minecraft";
-                font-size: 18pt;
-                margin: 0.25em;
-                color: #db8655;
-                text-decoration: underline;
-            }
+            .box-container {
+                display: flex; 
+                position: relative;
+                top: -9%;
 
-            .dotted-line {
-                circle {
-                  fill: #0d3d7d;
+                .arrow-icon {
+                    width: 2em;
+                    padding-left: 0.25em;
+                    padding-bottom: 0.75em;
+                    display: block;
                 }
-              }
+
+                .left-box{
+                    flex: 1 1 auto;
+                    width: 26%;
+                    
+                    .left-token-wrap {
+                        padding: 1em;
+                    }
+                    .token-wrap-one {
+                        padding: 1em;
+                        // background: #efb0ff;
+                        background: #f4c8ff;
+                        border-radius: 0.5em;
+                        box-shadow: 0 0.3em 0.3em #5555551f, 0 1px 2px #5555553d;
+                        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+                    }
+                    .left-token-title {
+                        font-family: "FactBit";
+                        color: #8d518d;
+                        font-size: 10pt;
+                        text-align: center;
+                        margin-left: 1.5em;
+                    }
+                    .left-character-wrap {
+                        padding: 1em;
+                        padding-left: 3em;
+                    }
+
+                }
+                .mid-box {
+                    flex: 1 1 auto;
+                    width: 48%;
+                    
+                    .line-wrapper {
+                        margin: 0;
+                        margin-top: 2.5em;
+                        width: 12em;
+                    }
+                    .dotted-line {
+                        circle {
+                        //   fill: #3f72bd;
+                            fill: brown;
+                        }
+                    }
+
+                }
+                .right-box {
+                    flex: 1 1 auto;
+                    width: 26%;
+
+                    .right-token-wrap {
+                        padding: 1em;
+                        margin-left: -1.5em;
+                    }
+                    .token-wrap-two {
+                        padding: 1em;
+                        background: #ffd8a5;
+                        border-radius: 0.5em;
+                        box-shadow: 0 0.3em 0.3em #5555551f, 0 1px 2px #5555553d;
+                        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+                    }
+                    .right-token-title {
+                        font-family: "FactBit";
+                        color: #3087a1;
+                        font-size: 10pt;
+                        text-align: center;
+                        margin-left: -2em;
+                    }
+                    .right-character-wrap {
+                        padding: 1em;
+                        padding-left: 1.75em;
+                    }
+                }
+
+            }
+            
         }
 
         // mid contents
         .middle-bar {
             flex: 1 1 auto;
-            width: 33%;
+            width: 36%;
+            padding-left: 1.5em;
 
             .character-name-plate {
                 display: flex; 
@@ -103,7 +196,7 @@ body {
             .character-boxes {
                 display: flex;
                 position: relative;
-                top: -40%;
+                top: -42%;
                 left: 18%;
             }
             .merchant-body {
@@ -137,14 +230,48 @@ body {
                 border: 0.25em solid #db8655;
                 border-radius: 0.5em;
             }
+
         }
 
         // right side contents
         .right-side-bar {
             flex: 1 1 auto;
             width: 33%; 
+            border: 0.25em solid #74aa5f;
+            border-radius: 0.5em;
+            background: #c3db9b;
+            height: 21em;
+            margin-left: 1em;
         }
 
     }
+
+    .bottom-container {
+        display: flex; 
+        
+        .left-bottom-box {
+            flex: 1 1 auto;
+            width: 59%;
+            height: 20em;
+            margin-top: 0em;
+            background: #fff6a8;
+            border: 0.25em solid #db8655;
+            border-radius: 0.5em;
+            box-shadow: 0 0.3em 0.3em #5555551f, 0 1px 2px #5555553d;
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        }
+        .right-bottom-box {
+            flex: 1 1 auto;
+            margin-left: 1em;
+            width: 40%;
+            height: 20em;
+            background: #60bfdb;
+            border: 0.25em solid #6b88be;
+            border-radius: 0.5em;
+            box-shadow: 0 0.3em 0.3em #5555551f, 0 1px 2px #5555553d;
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        }
+    }
+
 
 }   
