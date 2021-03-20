@@ -1,0 +1,75 @@
+// reset
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, caption,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+    vertical-align: baseline;
+    font-family: "Roboto", sans-serif;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1.5;
+}
+ol, ul {
+    list-style: none;
+	font-family: 'Raleway';
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+.row {
+	margin: 0 !important;
+	.col {
+		padding: 0 !important;
+	}
+}
+
+input, textarea {
+	-webkit-user-select: text !important;
+	-khtml-user-select: text !important;
+	-moz-user-select: text !important;
+	-ms-user-select: text !important;
+	user-select: text !important;
+}
+
+// html view change
+.html-view-change {
+	li {
+		list-style-type: disc !important;
+		margin-left: 1.25em !important;
+		margin-top: 0.5em !important;
+		margin-bottom: 0.5em !important;
+	}
+	p {
+		margin-top: 0.75em !important;
+		margin-bottom: 0.75em !important;
+		line-height: 1.3em !important;	
+		opacity: 0.8;	
+	}
+	strong {
+		font-weight: bold !important;
+		opacity: 1;	
+	}
+} 

@@ -1,0 +1,41 @@
+@import "./_reset.scss";
+
+html, body {
+    min-height: 100vh;
+}
+
+body {
+    background: linear-gradient(45deg, #ffe1c9, #fde4cf);
+}
+
+.app {
+    height: 100vh;
+    width: 90em;
+    margin: auto;
+
+    .bg-container {
+        display: flex; 
+
+        .left-side-bar {
+            flex: 1 1 auto;
+            width: 30em;
+        }
+        .middle-bar {
+            flex: 1 1 auto;
+            width: 30em;
+        }
+        .right-side-bar {
+            flex: 1 1 auto;
+            width: 30em;    
+        }
+
+        .bg-image {
+            width: 92%;
+            margin: auto;
+            display: block;
+            border: 0.5em solid #db8655;
+        }
+
+    }
+
+}   
