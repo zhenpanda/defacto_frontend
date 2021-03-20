@@ -6,6 +6,8 @@ import './assets/css/app.css';
 import bgImg from './assets/images/bazaar_bg.png';
 import dejureImg from './assets/images/tokens/dejure.png';
 import defactoImg from './assets/images/tokens/defacto.png';
+import merchantImg from './assets/images/merchant.png';
+import arrowDownImg from './assets/images/arrow_down.png';
 
 function App() {
   
@@ -38,7 +40,7 @@ function App() {
       <div className="bg-container">
         
         <div className="left-side-bar">
-          <div className="merchant-wallet-title">Merchant Wallet</div>
+          <div className="floating-title">NFT Ownership</div>
 
           <div className="box-container">
             <div className="left-box">
@@ -46,7 +48,12 @@ function App() {
               <div className="left-token-wrap">
                 <img src={dejureImg} className="token-wrap-one" alt="" />
               </div>
-           
+              <div className="left-token-title">De Jure Owner</div>
+              <div className="left-character-wrap">
+                <img src={arrowDownImg} className="arrow-icon" alt="" />
+                <img src={merchantImg} className="" alt="" />
+              </div>
+
             </div>
             <div className="mid-box">
               <svg xmlns="http://www.w3.org/2000/svg" sXlink="http://www.w3.org/1999/xlink" className="line-wrapper">
@@ -68,6 +75,11 @@ function App() {
               
               <div className="right-token-wrap">
                 <img src={defactoImg} className="token-wrap-two" alt="" />
+              </div>
+              <div className="right-token-title">De Facto Owner</div>
+              <div className="right-character-wrap">
+                <img src={arrowDownImg} className="arrow-icon" alt="" />
+                <img src={merchantImg} className="" alt="" />
               </div>
 
             </div>
@@ -91,6 +103,19 @@ function App() {
         </div>
       
         <div className="right-side-bar">
+          <div className="floating-title-green">NFT Rentals</div>
+        </div>
+
+      </div>
+
+      {/* merchant wallet & hero wallet */}
+      <div className="bottom-container">
+
+        <div className="left-bottom-box">
+
+        </div>
+
+        <div className="right-bottom-box">
 
         </div>
 
