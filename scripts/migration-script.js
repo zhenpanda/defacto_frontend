@@ -14,6 +14,13 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
+  const MockNFT = await hre.ethers.getContractFactory("MockNFT");
+  const mockNFT = await MockNFT.deploy();
+
+  await mockNFT.deployed();
+
+  console.log("MockNFT deployed to:", mockNFT.address);
+
   const EscrowRent = await hre.ethers.getContractFactory("EscrowRent");
   const escrowRent = await EscrowRent.deploy();
 

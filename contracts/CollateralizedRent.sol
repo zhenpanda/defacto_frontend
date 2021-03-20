@@ -5,7 +5,7 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Holder.sol";
 
-contract EscrowRent is ERC721Holder {
+contract CollateralizedRent is ERC721Holder {
     struct rentInfo {
         address defacto;
         address dejure;
@@ -15,6 +15,7 @@ contract EscrowRent is ERC721Holder {
         uint256 collectedFees;
         uint256 lastRent;
         uint256 start;
+        uint256 collateralRequirement;
     }
     struct nftInfo {
         IERC721 token;
@@ -31,14 +32,16 @@ contract EscrowRent is ERC721Holder {
         uint256 _id,
         uint256 payDue,
         uint256 payPeriod,
-        uint256 time
+        uint256 time,
+        uint256 collateralRequirement
     ) external {
-        token.safeTransferFrom(msg.sender, address(this), _id);
+        token.transferFrom(msg.sender, address(this), _id);
         require(token.ownerOf(_id) == address(this), "Error Transferring NFT");
         rents[token][_id].dejure = msg.sender;
         rents[token][_id].payDue = payDue;
         rents[token][_id].payPeriod = payPeriod;
         rents[token][_id].time = time;
+        rents[token][_id].collateralRequirement = collateralRequirement;
 
         dejures[msg.sender].push(nftInfo({token: token, id: _id}));
     }
@@ -50,7 +53,7 @@ contract EscrowRent is ERC721Holder {
         rentInfo storage info = rents[token][_id];
         require(msg.sender == info.dejure);
         require(info.defacto == address(0));
-
+        
         uint256 fees = info.collectedFees;
         delete rents[token][_id];
         msg.sender.transfer(fees);
@@ -63,19 +66,20 @@ contract EscrowRent is ERC721Holder {
     function rent(IERC721 token, uint256 _id) external payable {
         rentInfo storage info = rents[token][_id];
         require(info.defacto == address(0) && info.dejure != address(0));
-        require(msg.value >= info.payDue);
+        require(msg.value == info.payDue + info.collateralRequirement);
 
-        info.collectedFees += msg.value;
+        info.collectedFees += info.payDue;
         info.defacto = msg.sender;
         info.lastRent = block.timestamp;
         info.start = block.timestamp;
 
+        token.safeTransferFrom(address(this), msg.sender, _id);
+        require(token.ownerOf(_id) == msg.sender);
         defactos[msg.sender].push(nftInfo({token: token, id: _id}));
     }
 
     function payRent(IERC721 token, uint256 _id) external payable {
         rentInfo storage info = rents[token][_id];
-        require(info.defacto != address(0));
         require(msg.value >= info.payDue);
         require(info.start + info.time > block.timestamp);
 
@@ -87,21 +91,28 @@ contract EscrowRent is ERC721Holder {
         rentInfo storage info = rents[token][_id];
         require(info.defacto == msg.sender);
         info.defacto = address(0);
+        msg.sender.transfer(info.collateralRequirement);
 
+        token.safeTransferFrom(msg.sender, address(this), _id);
+        require(token.ownerOf(_id) == address(this));
         deleteDeFacto(msg.sender, token, _id);
     }
 
-    function removeDeFacto(IERC721 token, uint256 _id) external {
+    function liquidateCollateral(IERC721 token, uint256 _id) external {
         rentInfo storage info = rents[token][_id];
         require(msg.sender == info.dejure);
+        require(info.defacto != address(0));
         require(
             block.timestamp >= info.start + info.time ||
                 block.timestamp >= info.lastRent + info.payPeriod
         );
 
-        address oldDefacto = info.defacto;
-        info.defacto = address(0);
-        deleteDeFacto(oldDefacto, token, _id);
+        uint256 collateral = info.collateralRequirement;
+        uint256 fees = info.collectedFees;
+        deleteDeJure(msg.sender, token, _id);
+        deleteDeFacto(msg.sender, token, _id);
+        delete rents[token][_id];
+        msg.sender.transfer(collateral + fees);
     }
 
     function collectRents() external {

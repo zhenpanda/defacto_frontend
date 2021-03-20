@@ -98,6 +98,24 @@
         "internalType": "uint256",
         "name": "_id",
         "type": "uint256"
+      }
+    ],
+    "name": "liquidateCollateral",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
       },
       {
         "internalType": "uint256",
@@ -112,6 +130,11 @@
       {
         "internalType": "uint256",
         "name": "time",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateralRequirement",
         "type": "uint256"
       }
     ],
@@ -185,24 +208,6 @@
         "type": "uint256"
       }
     ],
-    "name": "removeDeFacto",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "contract IERC721",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
-      }
-    ],
     "name": "rent",
     "outputs": [],
     "stateMutability": "payable",
@@ -261,6 +266,11 @@
       {
         "internalType": "uint256",
         "name": "start",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateralRequirement",
         "type": "uint256"
       }
     ],
