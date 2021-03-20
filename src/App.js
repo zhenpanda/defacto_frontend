@@ -17,6 +17,11 @@ function App() {
   const [ heroBox, setHeroBox ] = useState(null);
   const [ animationOn, setAnimationOn] = useState(false);
 
+  const [ setupStep, setSetupStep ] = useState(0);
+  const [ payDue, setPayDue ] = useState(0);
+  const [ payPeriod, setPayPeriod ] = useState(0);
+  const [ deadline, setDeadline ] = useState(0);
+
   useEffect(() => {
     
     if(!animationOn) {
@@ -26,6 +31,37 @@ function App() {
     }
 
   })
+
+  const displayRentalSetup = () => {
+    switch(setupStep) {
+      case 0: 
+        return(
+          <div className="">
+
+            <div className="token-listing-wrap">
+              <div className="token-display">
+                
+                <div className="right-token-wrap">
+                <img src={defactoImg} className="token-wrap-two" alt="" />
+                </div>
+
+              </div>
+              <div className="token-setup">
+
+                <div className="setup-text">Cost of rental per pay period (In ETH): <input className="input" value={payDue} onChange={(e) => setPayDue(e.value)}/></div>
+                <div className="setup-text">Number hours per pay period: <input className="input" value={payPeriod} onChange={(e) => setPayPeriod(e.value)}/></div>
+                <div className="setup-text">Max number of days for rent: <input className="input" value={deadline} onChange={(e) => setDeadline(e.value)}/></div>
+                
+              </div>
+            </div>
+
+            <div className="list-token-btn">List Token For Rent</div>
+          </div>
+        )
+      default:
+        return <div />
+    }
+  }
 
   return (
     <div className="app">
@@ -37,10 +73,11 @@ function App() {
 
       <div className="spacing" />
 
+      {/* ownership / splash img / market place */}
       <div className="bg-container">
         
         <div className="left-side-bar">
-          <div className="floating-title">NFT Ownership</div>
+          <div className="floating-title">[ NFT Ownership ]</div>
 
           <div className="box-container">
             <div className="left-box">
@@ -103,7 +140,7 @@ function App() {
         </div>
       
         <div className="right-side-bar">
-          <div className="floating-title-green">NFT Rentals</div>
+          <div className="floating-title-green">NFT Rentals Market</div>
         </div>
 
       </div>
@@ -112,7 +149,8 @@ function App() {
       <div className="bottom-container">
 
         <div className="left-bottom-box">
-
+          <div className="token-setup-title">Token Listing Setup</div>
+          {displayRentalSetup()}
         </div>
 
         <div className="right-bottom-box">
