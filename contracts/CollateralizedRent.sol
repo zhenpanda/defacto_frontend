@@ -16,6 +16,8 @@ contract CollateralizedRent is ERC721Holder {
         uint256 lastRent;
         uint256 start;
         uint256 collateralRequirement;
+        uint256 currentCollateral;
+        bool slashed;
     }
     struct nftInfo {
         IERC721 token;
@@ -35,7 +37,7 @@ contract CollateralizedRent is ERC721Holder {
         uint256 time,
         uint256 collateralRequirement
     ) external {
-        token.transferFrom(msg.sender, address(this), _id);
+        token.safeTransferFrom(msg.sender, address(this), _id);
         require(token.ownerOf(_id) == address(this), "Error Transferring NFT");
         rents[token][_id].dejure = msg.sender;
         rents[token][_id].payDue = payDue;
@@ -72,6 +74,7 @@ contract CollateralizedRent is ERC721Holder {
         info.defacto = msg.sender;
         info.lastRent = block.timestamp;
         info.start = block.timestamp;
+        info.currentCollateral = info.collateralRequirement;
 
         token.safeTransferFrom(address(this), msg.sender, _id);
         require(token.ownerOf(_id) == msg.sender);
@@ -91,7 +94,7 @@ contract CollateralizedRent is ERC721Holder {
         rentInfo storage info = rents[token][_id];
         require(info.defacto == msg.sender);
         info.defacto = address(0);
-        msg.sender.transfer(info.collateralRequirement);
+        msg.sender.transfer(info.currentCollateral);
 
         token.safeTransferFrom(msg.sender, address(this), _id);
         require(token.ownerOf(_id) == address(this));
@@ -103,16 +106,29 @@ contract CollateralizedRent is ERC721Holder {
         require(msg.sender == info.dejure);
         require(info.defacto != address(0));
         require(
-            block.timestamp >= info.start + info.time ||
-                block.timestamp >= info.lastRent + info.payPeriod
+            block.timestamp >= info.start + info.time
         );
 
-        uint256 collateral = info.collateralRequirement;
+        uint256 collateral = info.currentCollateral;
         uint256 fees = info.collectedFees;
         deleteDeJure(msg.sender, token, _id);
-        deleteDeFacto(msg.sender, token, _id);
+        deleteDeFacto(info.defacto, token, _id);
         delete rents[token][_id];
         msg.sender.transfer(collateral + fees);
+    }
+
+    function slashCollateral(IERC721 token, uint256 _id) external {
+        rentInfo storage info = rents[token][_id];
+        require(msg.sender == info.dejure);
+        require(info.defacto != address(0));
+        require(
+            block.timestamp >= info.lastRent + info.payPeriod && !info.slashed
+        );
+
+        uint256 collateral = info.currentCollateral / 10;
+        info.currentCollateral = info.currentCollateral - collateral;
+        info.slashed = true;
+        msg.sender.transfer(collateral);
     }
 
     function collectRents() external {

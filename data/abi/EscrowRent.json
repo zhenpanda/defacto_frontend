@@ -98,24 +98,6 @@
         "internalType": "uint256",
         "name": "_id",
         "type": "uint256"
-      }
-    ],
-    "name": "liquidateCollateral",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "contract IERC721",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
       },
       {
         "internalType": "uint256",
@@ -130,11 +112,6 @@
       {
         "internalType": "uint256",
         "name": "time",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "collateralRequirement",
         "type": "uint256"
       }
     ],
@@ -193,6 +170,24 @@
     "name": "payRent",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "removeDeFacto",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -267,21 +262,6 @@
         "internalType": "uint256",
         "name": "start",
         "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "collateralRequirement",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "currentCollateral",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "slashed",
-        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -301,24 +281,6 @@
       }
     ],
     "name": "returnRent",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "contract IERC721",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_id",
-        "type": "uint256"
-      }
-    ],
-    "name": "slashCollateral",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
