@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import gsap from "gsap";
+import ReactTooltip from 'react-tooltip';
 
 import escrowRentAbi from './abi/EscrowRent.json';
 
@@ -9,6 +10,7 @@ import bgImg from './assets/images/bazaar_bg.png';
 import dejureImg from './assets/images/tokens/dejure.png';
 import defactoImg from './assets/images/tokens/defacto.png';
 import merchantImg from './assets/images/merchant.png';
+import heroImg from './assets/images/hero.png';
 import arrowDownImg from './assets/images/arrow_down.png';
 
 function App({web3}) {
@@ -25,6 +27,9 @@ function App({web3}) {
   const [ payDue, setPayDue ] = useState(0);
   const [ payPeriod, setPayPeriod ] = useState(0);
   const [ deadline, setDeadline ] = useState(0);
+
+  const [ marketView, setMarketView ] = useState(null);
+  const [ defactoOwner, setDefactoOwner] = useState("Merchant");
 
   useEffect(() => {
     
@@ -54,7 +59,6 @@ function App({web3}) {
     // console.log(contract);
     let dejures = await contract.methods.dejures(nateAddress,0).call();
     console.log(dejures);
-    // debugger;
   }
 
   const displayRentalSetup = () => {
@@ -67,7 +71,7 @@ function App({web3}) {
               <div className="token-display">
                 
                 <div className="right-token-wrap">
-                <img src={defactoImg} className="token-wrap-two" alt="" />
+                  <img src={defactoImg} className="token-wrap-two" alt="" />
                 </div>
 
               </div>
@@ -81,12 +85,94 @@ function App({web3}) {
             </div>
 
             <div className="list-token-btn" onClick={() => {
-
+              // list func
             }}>List Token For Rent</div>
+
           </div>
         )
       default:
         return <div />
+    }
+  }
+
+  const displayMarket = (marketView) => {
+    if(marketView === "forRent") {
+
+      return(
+        <div className="display-token">
+          <div className="right-token-wrap">
+            <img src={defactoImg} className="token-wrap-two" alt="" />
+          </div>
+          <div className="rent-btn" onClick={() => {
+            alert("renting request!");
+            setDefactoOwner("Hero");
+            setMarketView(null);
+          }}>Rent It</div>
+        </div>
+      )
+
+    }else{
+      return <div />
+    }
+  }
+
+  const displayDefactoOwner = (defactoOwner) => {
+    switch(defactoOwner) {
+      case "Merchant":
+        return(
+          <img src={merchantImg} className="" alt="" />
+        )
+      case "Hero":
+        return(
+          <img src={heroImg} className="" alt="" />
+        )
+      default: break;
+    }
+  }
+
+  const displayHeroToken = (defactoOwner) => {
+    switch(defactoOwner) {
+      case "Hero":
+        return(
+          <div className="hero-token-wrap">
+            <img src={defactoImg} className="token-wrap-two" alt="" />
+          </div>
+        )
+      default: break;
+    }
+  }
+
+  const displayToolTip = (input) => {
+    switch(input) {
+      case "defacto":
+        return (
+          <ReactTooltip type='light' place="right" effect="float" id="happyFace">
+            <div className="item-description-box">
+              <div className="item-title">[ Sword of Fighting ]</div>
+              <div className="item-divider" />
+              <span className="item-address">Owner = "Merchant" - Address: 0x0601...</span>
+              <div className="item-divider" />
+              <span className="item-address">Holder = "Hero" - Address: 0xb16...</span>
+              <div className="item-divider" />
+              <span className="item-detail">Holder of this NFT can open the portal of light in game version 0.5.1</span>
+              <div className="item-divider" />
+              <span className="item-detail-text">Details: The person who controls this swords pays a great price to hold it.</span>
+            </div>
+          </ReactTooltip>
+        )
+      default: break;
+    }
+  }
+
+  const displayRentBtn = (defactoOwner) => {
+    if(defactoOwner === "Hero") {
+      return(
+        <div className="return-token-btn" onClick={() => {
+          setDefactoOwner("Merchant")
+        }}>Return Token</div>
+      )
+    }else{
+      return <div />
     }
   }
 
@@ -142,10 +228,10 @@ function App({web3}) {
                 <div className="right-token-wrap">
                   <img src={defactoImg} className="token-wrap-two" alt="" />
                 </div>
-                <div className="right-token-title">De Facto Owner</div>
+                <div className="right-token-title">De Facto Holder</div>
                 <div className="right-character-wrap">
                   <img src={arrowDownImg} className="arrow-icon" alt="" />
-                  <img src={merchantImg} className="" alt="" />
+                  {displayDefactoOwner(defactoOwner)}
                 </div>
   
               </div>
@@ -169,9 +255,12 @@ function App({web3}) {
           </div>
         
           <div className="right-side-bar">
-            <div className="floating-title-green" onClick={() => {
-              listedToken()
-            }}>NFT Rentals Market</div>
+            <div className="floating-title-green">NFT Rentals Market</div>
+            <div className="refresh-btn" onClick={() => {
+              listedToken();
+              setMarketView("forRent")
+            }}>Refresh Market</div>
+            {displayMarket(marketView)}
           </div>
   
         </div>
@@ -185,7 +274,15 @@ function App({web3}) {
           </div>
   
           <div className="right-bottom-box">
-  
+            <div className="hero-wallet-title">Hero Wallet</div>
+              
+            <div data-tip data-for='happyFace'>
+              {displayHeroToken(defactoOwner)}
+            </div>
+
+            {displayRentBtn(defactoOwner)}
+
+            {displayToolTip("defacto")}
           </div>
   
         </div>
