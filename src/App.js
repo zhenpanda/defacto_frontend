@@ -51,9 +51,9 @@ function App({web3}) {
 
   })
 
-  const contractAddress = "0x84A00ffC1d8b97a8bc7db1c46327db9ac6EF3fC3";
+  const contractAddress = "0xFb50817bBcb4E8F6F80d6133f92BD6A59277bf4F";
   const nateAddress = "0xd0C81E82AbDdF29C6505d660f5bEBe60CDFf03c5";
-  const nftAddress = "0x60899f518FBC45fc30C71eff36FE8ee7cCE98e1D";
+  const nftAddress = "0x564cC4Dc07fB2720328f07e1e22D78E15b110877";
 
   // ABI blockchain Methods
   // -----------------------------------------------------------------
@@ -62,7 +62,7 @@ function App({web3}) {
     let contract = new web3.eth.Contract(escrowRentAbi, contractAddress);
     let day = 60 * 60 * 24;
     let week = day * 7;
-    await contract.methods.listForRent(nftAddress, 0, "1000000000000000000", day, week).send({
+    await contract.methods.listForRent(nftAddress, 0, "100000000000000000", day, week).send({
       "from": account[0]
     });
   }
@@ -82,7 +82,7 @@ function App({web3}) {
   }
   const returnToken = async () => {
     let contract = new web3.eth.Contract(escrowRentAbi, contractAddress);
-    await contract.methods.returnRent(nateAddress, 0).send({
+    await contract.methods.returnRent(nftAddress, 0).send({
       "from": account[0]
     })
   }
