@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import gsap from "gsap";
 
+import escrowRentAbi from './abi/EscrowRent.json';
+
 import './assets/css/app.css';
 
 import bgImg from './assets/images/bazaar_bg.png';
@@ -40,8 +42,20 @@ function App({web3}) {
       }
       callAcc()
     }
+
   })
-    
+
+  let contractAddress = "0x84A00ffC1d8b97a8bc7db1c46327db9ac6EF3fC3";
+  let nateAddress = "0xd0C81E82AbDdF29C6505d660f5bEBe60CDFf03c5";
+
+  // return a list of tokens that's offered on the market place
+  const listedToken = async () => {
+    var contract = new web3.eth.Contract(escrowRentAbi, contractAddress);
+    // console.log(contract);
+    let dejures = await contract.methods.dejures(nateAddress,0).call();
+    console.log(dejures);
+    // debugger;
+  }
 
   const displayRentalSetup = () => {
     switch(setupStep) {
@@ -155,7 +169,9 @@ function App({web3}) {
           </div>
         
           <div className="right-side-bar">
-            <div className="floating-title-green">NFT Rentals Market</div>
+            <div className="floating-title-green" onClick={() => {
+              listedToken()
+            }}>NFT Rentals Market</div>
           </div>
   
         </div>
