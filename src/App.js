@@ -30,6 +30,7 @@ function App({web3}) {
 
   const [ marketView, setMarketView ] = useState(null);
   const [ defactoOwner, setDefactoOwner] = useState("Merchant");
+  const [ heroWallet, setHeroWallet] = useState(null);
 
   useEffect(() => {
     
@@ -50,15 +51,40 @@ function App({web3}) {
 
   })
 
-  let contractAddress = "0x84A00ffC1d8b97a8bc7db1c46327db9ac6EF3fC3";
-  let nateAddress = "0xd0C81E82AbDdF29C6505d660f5bEBe60CDFf03c5";
+  const contractAddress = "0x84A00ffC1d8b97a8bc7db1c46327db9ac6EF3fC3";
+  const nateAddress = "0xd0C81E82AbDdF29C6505d660f5bEBe60CDFf03c5";
+  const nftAddress = "0x60899f518FBC45fc30C71eff36FE8ee7cCE98e1D";
 
+  // ABI blockchain Methods
+  // -----------------------------------------------------------------
+  const listForRent = async () => {
+    console.log("listForRent - called");
+    let contract = new web3.eth.Contract(escrowRentAbi, contractAddress);
+    let day = 60 * 60 * 24;
+    let week = day * 7;
+    await contract.methods.listForRent(nftAddress, 0, "1000000000000000000", day, week).send({
+      "from": account[0]
+    });
+  }
   // return a list of tokens that's offered on the market place
-  const listedToken = async () => {
-    var contract = new web3.eth.Contract(escrowRentAbi, contractAddress);
+  const listAvilableToken = async () => {
+    let contract = new web3.eth.Contract(escrowRentAbi, contractAddress);
     // console.log(contract);
     let dejures = await contract.methods.dejures(nateAddress,0).call();
     console.log(dejures);
+  }
+  const rentToken = async () => {
+    let contract = new web3.eth.Contract(escrowRentAbi, contractAddress);
+    await contract.methods.rent(nftAddress, 0).send({
+      "from": account[0],
+      "value": "100000000000000000"
+    })
+  }
+  const returnToken = async () => {
+    let contract = new web3.eth.Contract(escrowRentAbi, contractAddress);
+    await contract.methods.returnRent(nateAddress, 0).send({
+      "from": account[0]
+    })
   }
 
   const displayRentalSetup = () => {
@@ -85,7 +111,7 @@ function App({web3}) {
             </div>
 
             <div className="list-token-btn" onClick={() => {
-              // list func
+              listForRent()
             }}>List Token For Rent</div>
 
           </div>
@@ -104,9 +130,12 @@ function App({web3}) {
             <img src={defactoImg} className="token-wrap-two" alt="" />
           </div>
           <div className="rent-btn" onClick={() => {
-            alert("renting request!");
-            setDefactoOwner("Hero");
+            // alert("renting request!");
+            rentToken();
             setMarketView(null);
+            setTimeout(() => {
+              setDefactoOwner("Hero");
+            }, 4000)
           }}>Rent It</div>
         </div>
       )
@@ -168,7 +197,10 @@ function App({web3}) {
     if(defactoOwner === "Hero") {
       return(
         <div className="return-token-btn" onClick={() => {
-          setDefactoOwner("Merchant")
+          returnToken();
+          setTimeout(() => {
+            setDefactoOwner("Merchant")
+          }, 4000)
         }}>Return Token</div>
       )
     }else{
@@ -257,7 +289,7 @@ function App({web3}) {
           <div className="right-side-bar">
             <div className="floating-title-green">NFT Rentals Market</div>
             <div className="refresh-btn" onClick={() => {
-              listedToken();
+              listAvilableToken();
               setMarketView("forRent")
             }}>Refresh Market</div>
             {displayMarket(marketView)}
@@ -293,7 +325,6 @@ function App({web3}) {
   }else{
     return <div />
   }
-
 
 }
 
